@@ -1,15 +1,19 @@
 import { FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { handleLogOut } from "../../features/user";
 
 const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
-  const { categories, isLoading } = useSelector((state) => state.categories);
+  const { categories } = useSelector((state) => state.categories);
   const push = useNavigate();
-  const { person } = useSelector((state) => state.user);
+  const { unique_name, isSignedIn } = useSelector((state) => state.user);
   const [seeMore, setSeeMore] = useState(false);
+  const dispatch = useDispatch();
 
-  console.log(categories);
+  const handleSignOut = () => {
+    dispatch(handleLogOut());
+  };
 
   const handleSeeMore = () => {
     setSeeMore((prev) => !prev);
@@ -42,11 +46,7 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
         <FaUser />
         <h3>
           Hello,{" "}
-          {person.unique_name ? (
-            <span>{person.unique_name}</span>
-          ) : (
-            <span> Sign in </span>
-          )}{" "}
+          {isSignedIn ? <span>{unique_name}</span> : <span> Sign in </span>}{" "}
         </h3>
       </div>
 
@@ -96,7 +96,13 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
             <li>your account</li>
             <li> English 🇺🇸</li>
             <li>costumer service</li>
-            <li>Sign in </li>
+            {isSignedIn ? (
+              <li style={{ cursor: "pointer" }} onClick={handleSignOut}>
+                Sign out
+              </li>
+            ) : (
+              <li onClick={() => push("/login")}>Sign in</li>
+            )}
           </ul>
         </section>
       </div>

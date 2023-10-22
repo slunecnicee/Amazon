@@ -1,9 +1,48 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../servises/cart/addToCart";
+import { handleAddProduct } from "../../features/user";
+import { useNavigate, useParams } from "react-router-dom";
+import { getProductById } from "../../servises/getProductById";
+
+const defaultState = {
+  data: [],
+  isLoading: true,
+  isLoaded: false,
+  isError: false,
+};
 
 const ProductButtons = ({ price }) => {
   const [stock, setStock] = useState(0);
   const [futureDate, setFutureDate] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(defaultState);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { isSignedIn } = useSelector((state) => state.user);
+  const { person } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getProductById(id).then((res) => {
+      try {
+        setSelectedProduct({
+          data: res,
+          isLoading: false,
+          isLoaded: true,
+          isError: false,
+        });
+      } catch (err) {
+        setSelectedProduct({
+          data: [],
+          isLoading: false,
+          isLoaded: true,
+          isError: true,
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const random = Math.random();
@@ -18,6 +57,16 @@ const ProductButtons = ({ price }) => {
     const date = futureDate.toDateString();
     setFutureDate(date);
   }, []);
+
+  const handleAddToCart = async () => {
+    if (isSignedIn) {
+      dispatch(handleAddProduct(selectedProduct.data));
+      addToCart(selectedProduct.data);
+      console.log(selectedProduct.data);
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="productButtons">
@@ -42,7 +91,9 @@ const ProductButtons = ({ price }) => {
 
       <input type="number" min={1} max={stock} placeholder="Qty : 1" />
 
-      <button className="yellow">Add to Cart</button>
+      <button className="yellow" onClick={handleAddToCart}>
+        Add to Cart
+      </button>
       <button className="orange">Buy Now</button>
 
       <div className="payment">

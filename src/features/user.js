@@ -1,56 +1,112 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getCartItems } from "../servises/cart/getCartItems";
+import { removeCartItem } from "../servises/cart/RemoveFromCart";
+
+export const getReduxCartItems = createAsyncThunk("cart/items", getCartItems);
+
+export const removeRedCartItem = createAsyncThunk(
+  "cart/remove",
+  removeCartItem
+);
 
 const initialState = {
- isSignedIn: false,
- errorMessage:'',
- succsessMessage:'',
- person:{
-    email:"",
-    exp:0,
-    iat:0,
-    nameid:"",
-    nbf:0,
-    role:'',
-    unique_name:'',
- },
+  isSignedIn: false,
+  errorMessage: "",
+  succsessMessage: "",
+  email: "",
+  exp: 0,
+  iat: 0,
+  nameid: "",
+  nbf: 0,
+  role: "",
+  unique_name: "",
+  cartItems: {
+    isLoading: true,
+    isLoaded: false,
+    isError: false,
+    data: {},
+  },
 };
 
 const user = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
-handleSignIn: (state, action) => {
-  state.isSignedIn = true;
-},
+    handleSignIn: (state) => {
+      state.isSignedIn = true;
+    },
 
-setErrorMessage: (state, action) => {
-  state.errorMessage = action.payload;
-},
+    setErrorMessage: (state, action) => {
+      state.errorMessage = action.payload;
+    },
 
-setSuccsessMessage: (state, action) => {
-  state.succsessMessage = action.payload;
-},
-handleLogIn: (state, action) => {
-  state.isSignedIn = true;
-  for (let key in action.payload) {
-    state.person[key] = action.payload[key];
-  }
-},
-handleLogOut: (state, action) => {
-  state.isSignedIn = false;
-  localStorage.removeItem('token');
-  state.person={
-    email:"",
-    exp:0,
-    iat:0,
-    nameid:"",
-    nbf:0,
-    role:'',
-    unique_name:'',
-  }
-}
+    setSuccsessMessage: (state, action) => {
+      state.succsessMessage = action.payload;
+    },
+    handleLogIn: (state, { payload }) => {
+      state.isSignedIn = true;
+      for (let key in payload) {
+        state[key] = payload[key];
+      }
+    },
+    handleLogOut: (state) => {
+      state.isSignedIn = false;
+      localStorage.removeItem("token");
+      state = {
+        email: "",
+        exp: 0,
+        iat: 0,
+        nameid: "",
+        nbf: 0,
+        role: "",
+        unique_name: "",
+      };
+    },
+    handleAddProduct: (state, action) => {
+      return {
+        ...state,
+        cartItems: {
+          ...state.cartItems,
+          data: {
+            ...state.cartItems.data,
+            [action.payload.id]: action.payload,
+          },
+        },
+      };
+    },
+
+    handleRemoveOptimisticProduct(state, action) {
+      delete state.cartItems.data[action.payload];
+    },
+  },
+
+  extraReducers(builder) {
+    builder.addCase(getReduxCartItems.fulfilled, (state, action) => {
+      state.cartItems.isLoaded = true;
+      state.cartItems.isLoading = false;
+      state.cartItems.isError = false;
+      const newObj = {};
+      action.payload.forEach((product) => {
+        newObj[product.id] = product;
+      });
+      state.cartItems.data = newObj;
+    });
+    builder.addCase(removeRedCartItem.fulfilled, (state, { payload }) => {
+      if (payload) {
+        delete state.cartItems.data[payload];
+      }
+    });
   },
 });
 
-export const {handleSignIn,setErrorMessage,setSuccsessMessage,handleLogIn,handleLogOut } = user.actions;
+export const {
+  handleSignIn,
+  setErrorMessage,
+  setSuccsessMessage,
+  handleLogIn,
+  handleLogOut,
+  handleRemoveOptimisticProduct,
+  handleAddProduct,
+} = user.actions;
 export default user.reducer;

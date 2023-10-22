@@ -1,5 +1,7 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Header2 = ({ setModalOpen, setAnimating, modalOpen }) => {
   const navigate = useNavigate();
@@ -13,9 +15,17 @@ const Header2 = ({ setModalOpen, setAnimating, modalOpen }) => {
   return (
     <section className="nav-header">
       <div className="menu-icon-box" onClick={handleOpen}>
-        <div className="menu-icon"></div>
-        <div className="menu-icon"></div>
-        <div className="menu-icon"></div>
+        <IconButton
+          onClick={handleOpen}
+          edge="start"
+          sx={{
+            color: "white",
+            marginLeft: "25px",
+          }}
+          aria-label="menu"
+        >
+          <MenuIcon sx={{ fontSize: "40px" }} />
+        </IconButton>
       </div>
 
       <button className="btn7">
@@ -27,7 +37,6 @@ const Header2 = ({ setModalOpen, setAnimating, modalOpen }) => {
 
       <div className="header-nav">
         <ul>
-          <li onClick={() => navigate("/allproducts")}>All</li>
           <li>Today's Deals</li>
           <li> Costumer Servise</li>
           <li>Registery</li>

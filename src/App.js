@@ -1,7 +1,6 @@
 import "./App.scss";
 import HomePage from "./Pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AllProducts from "./Pages/AllProductsPage";
 import RegisterUser from "./Pages/RegisterUser";
 import HelpPage from "./Pages/Help";
 import ConditionsPage from "./Pages/conditions";
@@ -10,16 +9,38 @@ import LoginPage from "./Pages/LoginPage";
 import ProtectedRoute from "./components/protectedRoute";
 import CategoryPage from "./Pages/CategoryPage";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { getRedCategories } from "./features/categories";
 import { getRedDemanded } from "./features/mostdemanded";
 import { getRedLatest } from "./features/latest";
 import { getRedOffers } from "./features/offers";
 import { getRedProducts } from "./features/products";
 import SingleProductPage from "./Pages/SingleProductPage";
+import { handleLogIn } from "./features/user";
+import jwtDecode from "jwt-decode";
+import Cart from "./Pages/CartPage";
 
 function App() {
   const dispatch = useDispatch();
+
+  useMemo(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+          return false;
+        }
+
+        dispatch(handleLogIn(decoded));
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    return false;
+  }, []);
 
   useEffect(() => {
     dispatch(getRedProducts());
@@ -91,7 +112,7 @@ function App() {
           />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/allproducts" element={<AllProducts />} />
+            <Route path="/cart" element={<Cart />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -4,6 +4,7 @@ import Carusel from "../components/Home/carusel";
 import Header from "../components/Header/Header";
 import HomeProductBox from "../components/Home/HomeProductBox";
 import HomeProductBoxSm from "../components/Home/HomeProductBoxSm";
+import { PulseLoader } from "react-spinners";
 
 const HomePage = () => {
   const { products, isLoading } = useSelector((state) => state.products);
@@ -31,10 +32,30 @@ const HomePage = () => {
     latestIsLoading ||
     mostDemandedIsLoading
   ) {
-    return <div>...Loading</div>;
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <PulseLoader
+          color={"orange"}
+          loading={
+            isLoading ||
+            categoriesIsLoading ||
+            offersIsLoading ||
+            latestIsLoading ||
+            mostDemandedIsLoading
+          }
+          size={30}
+          data-testid="loader"
+        />
+      </div>
+    );
   }
-
-  console.log(products);
 
   const productsWithCategoryName = products?.map((product, index) => {
     const category = categories.find((cat) => cat.id === product.categoryId);

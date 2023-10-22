@@ -3,6 +3,7 @@ import { getProductById } from "../servises/getProductById";
 import { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import SingleProductBox from "../components/singleProduct/singleProductBox";
+import { PulseLoader } from "react-spinners";
 
 const SingleProductPage = ({ StarRating, generateStarRating }) => {
   const { id } = useParams();
@@ -22,7 +23,23 @@ const SingleProductPage = ({ StarRating, generateStarRating }) => {
   }, [id]);
 
   if (product.isLoading) {
-    return <div>...Loading</div>;
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <PulseLoader
+          color={"orange"}
+          loading={product.isLoading}
+          size={30}
+          data-testid="loader"
+        />
+      </div>
+    );
   }
 
   if (product.data.length == 0) {

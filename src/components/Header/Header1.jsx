@@ -10,10 +10,18 @@ const url =
 const Header1 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { person } = useSelector((state) => state.user);
+  const { unique_name, isSignedIn } = useSelector((state) => state.user);
 
   const onLogOut = () => {
     dispatch(handleLogOut());
+  };
+
+  const handleCartClick = () => {
+    if (isSignedIn) {
+      navigate("/cart");
+    } else {
+      window.alert("Please login to continue");
+    }
   };
 
   return (
@@ -48,13 +56,16 @@ const Header1 = () => {
         <p>🇺🇸 EN▼</p>
       </button>
 
-      <button className="btn3">
-        {person.unique_name === "" ? (
-          <p>Hello, Sign in</p>
-        ) : (
-          <p>Hello, {person.unique_name}</p>
-        )}
-        <h3>Account&Lists▼</h3>
+      <div style={{ position: "relative" }} className="butsec">
+        <button className="btn3">
+          {unique_name === "" ? (
+            <p>Hello, Sign in</p>
+          ) : (
+            <p>Hello, {unique_name}</p>
+          )}
+          <h3>Account&Lists▼</h3>
+        </button>
+
         <section className="signIn-options">
           <NavLink to="/register">
             {" "}
@@ -66,14 +77,18 @@ const Header1 = () => {
           </NavLink>
           <button onClick={onLogOut}>Log Out</button>
         </section>
-      </button>
+      </div>
 
       <button className="btn4">
         <p>Returns</p>
         <h2>&Orders</h2>
       </button>
 
-      <button className="btn5">
+      <button
+        className="btn5"
+        onClick={handleCartClick}
+        style={{ marginRight: "5px" }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="35"

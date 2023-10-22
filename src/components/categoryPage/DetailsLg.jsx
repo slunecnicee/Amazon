@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
-const DetailsLg = ({ filteredProducts, StarRating, generateStarRating }) => {
+const DetailsLg = ({
+  filteredProducts,
+  StarRating,
+  generateStarRating,
+  handleAddToCart,
+}) => {
   const push = useNavigate();
 
   const handleClick = (id) => {
@@ -10,12 +15,8 @@ const DetailsLg = ({ filteredProducts, StarRating, generateStarRating }) => {
   return (
     <div className="cat-wrp-LG">
       {filteredProducts.map((product) => (
-        <article
-          className="productBoxLg"
-          key={product.id}
-          onClick={() => handleClick(product.id)}
-        >
-          <div className="imgdiv">
+        <article className="productBoxLg" key={product.id}>
+          <div onClick={() => handleClick(product.id)} className="imgdiv">
             <img src={product.images[0]} alt="" />
           </div>
           <div className="text">
@@ -33,6 +34,15 @@ const DetailsLg = ({ filteredProducts, StarRating, generateStarRating }) => {
                 {(product.price % 1).toFixed(2).slice(1)}
               </span>
             </p>
+            <p className="p78" onClick={() => handleClick(product.id)}>
+              see more
+            </p>
+            <button
+              onClick={() => handleAddToCart(product.id)}
+              className="btn65"
+            >
+              Add In Cart
+            </button>
           </div>
         </article>
       ))}

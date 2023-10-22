@@ -14,8 +14,8 @@ const LoginPage = () => {
   const { errorMessage } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState({
-    email: "",
-    password: "",
+    email: "sdfgn@fgg",
+    password: "d12345",
   });
 
   const [paswordFiled, setPaswordFiled] = useState(false);
@@ -50,7 +50,7 @@ const LoginPage = () => {
         console.log("No JWT token received");
       }
     } catch (err) {
-      console.log(err);
+      window.alert(err);
 
       if (err.response && err.response.status !== 200) {
         dispatch(setErrorMessage("Wrong email or password"));

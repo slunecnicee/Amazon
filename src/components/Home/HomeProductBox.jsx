@@ -1,8 +1,11 @@
 import boxes from "../../images/boxes.jpg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HomeProductBox = ({ productsWithCategoryName }) => {
   const push = useNavigate();
+
+  const { isSignedIn } = useSelector((state) => state.user);
 
   const handleProductClick = (id) => {
     push(`/product/${id}`);
@@ -41,8 +44,14 @@ const HomeProductBox = ({ productsWithCategoryName }) => {
       ))}
       <div className="signIn">
         <img src={boxes} alt="boxes" />
-        <h3>Sign in for besr experience</h3>
-        <button>Sign in securely</button>
+        {!isSignedIn ? (
+          <>
+            <h3>Sign in for besr experience</h3>
+            <button>Sign in securely</button>
+          </>
+        ) : (
+          <h3>Start Shopping Now </h3>
+        )}
       </div>
     </section>
   );

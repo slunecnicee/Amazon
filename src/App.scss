@@ -18,11 +18,12 @@ header {
   background-color: #131a22;
   display: flex;
   justify-content: space-between;
+  gap: 5px;
   align-items: center;
 
   .image-div {
     height: 10vh;
-    width: 13%;
+    width: 10%;
     &:hover {
       border: 1px solid white;
     }
@@ -39,13 +40,14 @@ header {
     background-color: inherit;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     border: none;
     color: white;
     cursor: pointer;
-    width: 10%;
+    width: fit-content;
     border: none;
+    padding-right: 4px;
     &:hover {
       border: 1px solid white;
     }
@@ -56,15 +58,11 @@ header {
     p {
       font-weight: bold;
       color: #dcdbdb;
-      margin-left: 17px;
       font-size: smaller;
     }
   }
 
   @media (min-width: 1100px) {
-    .btn1 {
-      width: 7%;
-    }
     p {
       font-size: medium;
     }
@@ -85,7 +83,7 @@ header {
   }
 
   .search {
-    width: 38%;
+    width: 50%;
     height: 8vh;
     margin-left: 6px;
     display: flex;
@@ -95,7 +93,7 @@ header {
     }
 
     select {
-      width: 12%;
+      width: 9%;
       height: 100%;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
@@ -115,7 +113,7 @@ header {
     input[type="text"] {
       font-size: 16px;
       border: none;
-      width: 75%;
+      width: 82%;
       height: 100%;
 
       &:focus {
@@ -125,7 +123,7 @@ header {
 
     button {
       height: 100%;
-      width: 13%;
+      width: 9%;
       border: none;
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -148,36 +146,14 @@ header {
     justify-content: center;
     color: white;
     font-weight: bold;
-    width: 6%;
+    width: fit-content;
 
     &:hover {
       outline: 1px solid white;
     }
-  }
 
-  .languages-options {
-    height: 50vh;
-    width: 20vw;
-    background-color: white;
-    box-shadow: 0 0 5px lightgray;
-    position: absolute;
-    top: 9%;
-    right: 28.1%;
-    border-radius: 5px;
-    display: none;
-    z-index: 4;
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 18px solid white;
-      top: -10px;
-      left: 79.8%;
-      transform: translateX(-50%);
+    p {
+      font-size: small;
     }
   }
 
@@ -194,20 +170,22 @@ header {
 
   .btn3 {
     height: 10vh;
-    width: 14%;
+    width: fit-content;
     background-color: inherit;
     border: none;
-
+    padding-right: 2px;
+    padding-left: 2px;
     color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
     border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
     &:hover {
       outline: 1px solid white;
-      .signIn-options {
+      ~ .signIn-options {
         display: block;
       }
       ~ .header-overlay {
@@ -215,30 +193,61 @@ header {
       }
     }
 
+    h3 {
+      font-size: 14px;
+    }
+
     p {
-      margin-right: 33px;
+      font-size: 12px;
+      white-space: nowrap;
     }
   }
 
-  @media screen and (min-width: 800px) and (max-width: 920px) {
-    .search {
-      width: 36%;
-    }
+  .signIn-options {
+    height: fit-content;
+    width: fit-content;
+    padding: 10px;
+    background-color: white;
+    position: absolute;
+    bottom: -130%;
+    right: 0;
+    border-radius: 5px;
+    display: none;
+    z-index: 4;
 
-    .btn3 {
-      width: 17%;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 18px solid white;
+      top: -10px;
+      left: 79.8%;
+      transform: translateX(-50%);
     }
   }
 
   .btn4 {
     height: 10vh;
-    width: 8.5%;
+    padding-right: 2px;
+    padding-left: 2px;
+    width: fit-content;
     background-color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     border: none;
     color: white;
     z-index: 3;
     &:hover {
       border: 1px solid white;
+    }
+
+    p {
+      font-size: small;
     }
 
     h2 {
@@ -249,10 +258,12 @@ header {
 
   .btn5 {
     height: 10vh;
+    padding-right: 3px;
+    padding-left: 5px;
     background-color: inherit;
     border: none;
     color: white;
-    width: 7%;
+    width: fit-content;
     &:hover {
       border: 1px solid white;
     }
@@ -271,7 +282,7 @@ header {
     display: none;
   }
 
-  @media screen and (max-width: 799px) {
+  @media screen and (max-width: 800px) {
     height: 26vh;
 
     .image-div {
@@ -357,93 +368,6 @@ header {
       width: 20%;
     }
   }
-
-  @media screen and (max-width: 980px) {
-    .languages-options {
-      right: 27.9%;
-    }
-  }
-  @media screen and (min-width: 1100px) {
-    .languages-options {
-      right: 29.3%;
-    }
-  }
-  @media screen and (max-width: 920px) {
-    .languages-options {
-      right: 30.2%;
-    }
-  }
-  @media screen and (max-width: 900px) {
-    .languages-options {
-      right: 31.3%;
-      top: 10.2%;
-    }
-  }
-  @media screen and (max-width: 821px) {
-    .languages-options {
-      right: 31.2%;
-      top: 10.4%;
-    }
-  }
-
-  .signIn-options {
-    height: 60vh;
-    width: 50vw;
-    background-color: white;
-    box-shadow: 0 0 5px lightgray;
-    position: absolute;
-    top: 10.5%;
-    right: 8.2%;
-    border-radius: 5px;
-    display: none;
-    z-index: 4;
-
-    &::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid white;
-      top: -10px;
-      left: 79.8%;
-      transform: translateX(-50%);
-    }
-  }
-
-  @media screen and (max-width: 870px) {
-    .signIn-options {
-      right: 7.9%;
-    }
-  }
-
-  @media screen and (max-width: 840px) {
-    .signIn-options {
-      right: 7.7%;
-    }
-  }
-
-  @media screen and (min-width: 921px) {
-    .signIn-options {
-      right: 7.3%;
-    }
-  }
-  @media screen and (min-width: 1000px) {
-    .signIn-options {
-      right: 7.9%;
-    }
-  }
-  @media screen and (min-width: 1075px) {
-    .signIn-options {
-      right: 8%;
-    }
-  }
-  @media screen and (min-width: 1100px) {
-    .signIn-options {
-      right: 9.1%;
-    }
-  }
 }
 
 .nav-header {
@@ -458,12 +382,11 @@ header {
     height: 100%;
     width: 5%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
     margin-left: 6px;
     cursor: pointer;
+    color: white;
   }
 
   .btn7 {
@@ -477,7 +400,7 @@ header {
     border-radius: 5px;
   }
 
-  @media screen and (max-width: 799px) {
+  @media screen and (max-width: 800px) {
     .menu-icon-box {
       height: 10vh;
       position: absolute;
@@ -1322,7 +1245,12 @@ header {
     background-color: white;
 
     h2 {
-      margin-left: 10%;
+      margin-top: 15px;
+      color: black;
+      border-bottom: 1px solid lightgrey;
+      padding-bottom: 5px;
+      width: 90%;
+      align-self: center;
     }
 
     .cat-wrp-LG {
@@ -1369,7 +1297,7 @@ header {
 
     .cat-wrp-Md {
       width: 100%;
-      height: 100%;
+      height: fit-content;
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -1383,14 +1311,14 @@ header {
         max-width: 350px;
         min-width: 270px;
         flex: 1;
-        min-height: 500px;
+        height: fit-content;
         box-shadow: 0 0 3px rgb(186, 185, 185);
         display: flex;
         flex-wrap: wrap;
+        padding-bottom: 10px;
         flex-direction: column;
         justify-content: center;
         gap: 5px;
-        position: relative;
         cursor: pointer;
 
         @media (max-width: 350px) {
@@ -1402,10 +1330,8 @@ header {
 
         img {
           width: 100%;
-          height: 48%;
+          height: 250px;
           align-self: flex-start;
-          position: absolute;
-          top: 0;
         }
 
         .text {
@@ -1413,8 +1339,6 @@ header {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          position: absolute;
-          bottom: 10px;
           height: 50%;
           padding: 8px;
         }
@@ -1797,5 +1721,238 @@ header {
         border: 2px solid rgb(232, 151, 2);
       }
     }
+  }
+}
+
+//cart
+
+.cart {
+  width: 100%;
+  display: flex;
+  gap: 2%;
+  background-color: whitesmoke;
+  height: fit-content;
+  padding: 20px;
+
+  @media (max-width: 999px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .cart-leftbar {
+    height: fit-content;
+    width: 72%;
+    background-color: white;
+    padding: 10px;
+
+    @media (max-width: 999px) {
+      width: 100%;
+    }
+
+    .title {
+      width: 100%;
+      border-bottom: 1px solid lightgray;
+      padding-bottom: 5px;
+
+      h3 {
+        font-weight: 600;
+        font-size: 25px;
+      }
+
+      p {
+        color: steelblue;
+        margin-top: 5px;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+          color: #a76003;
+        }
+      }
+    }
+
+    .cart-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      height: fit-content;
+      border-bottom: 1px solid lightgray;
+      padding-bottom: 5px;
+      padding: 10px;
+
+      input {
+        height: 11%;
+        width: 4%;
+      }
+
+      img {
+        height: 180px;
+        width: 25%;
+      }
+
+      .p-info {
+        width: 67%;
+        height: 90%;
+        overflow: hidden;
+
+        h4 {
+          font-weight: 500;
+        }
+
+        .price {
+          font-weight: 600;
+          color: black;
+          font-size: 19px;
+          margin-top: 5px;
+        }
+
+        .p1 {
+          font-size: 15px;
+          color: steelblue;
+          margin-top: 5px;
+        }
+
+        .p2 {
+          font-size: 13px;
+          color: rgb(1, 96, 1);
+          margin-top: 5px;
+          font-weight: 500;
+        }
+
+        input {
+          margin-top: 10px;
+          width: 15%;
+          padding: 4px;
+          background-color: rgb(233, 229, 229);
+          border: 1px solid darkgray;
+          box-shadow: 0 0 7px rgb(168, 167, 167);
+          border-radius: 5px;
+          &:focus {
+            outline: 1px solid orange;
+          }
+          &::placeholder {
+            margin-left: 2px;
+            color: black;
+          }
+        }
+
+        .btns {
+          display: flex;
+          width: 100%;
+          padding: 8px;
+          padding-left: 0;
+
+          p {
+            color: steelblue;
+            font-size: 13px;
+            border-right: 1px solid lightgrey;
+            padding-right: 8px;
+            padding-left: 5px;
+            white-space: nowrap;
+            cursor: pointer;
+            &:hover {
+              text-decoration: underline;
+              color: #a76003;
+            }
+            &:last-child {
+              border: none;
+            }
+            &:first-child {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .rightbar {
+    height: fit-content;
+    width: 25%;
+    background-color: white;
+    padding: 20px;
+
+    @media (max-width: 999px) {
+      width: 60%;
+      padding: 30px;
+    }
+
+    h3 {
+      font-weight: 500;
+      font-size: 20px;
+      span {
+        font-weight: 700;
+        white-space: nowrap;
+      }
+    }
+
+    button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      background-color: #ffc800;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 1s ease-in-out;
+      &:hover {
+        background-color: #c48104;
+      }
+    }
+  }
+
+  .subtotal {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    font-size: 18px;
+    padding: 5px;
+
+    span {
+      white-space: nowrap;
+      font-weight: bold;
+    }
+  }
+}
+
+.btn65 {
+  font-size: 18px;
+  background-color: #ffc800;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 20%;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: #c48104;
+  }
+}
+.btn66 {
+  font-size: 18px;
+  background-color: #ffc800;
+  border-radius: 5px;
+  align-self: center;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 95%;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: #c48104;
+  }
+}
+
+.p78 {
+  color: steelblue;
+  cursor: pointer;
+  &:hover {
+    color: #a76003;
+    text-decoration: underline;
   }
 }

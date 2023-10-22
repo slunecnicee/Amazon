@@ -5,25 +5,32 @@ import { useParams } from "react-router-dom";
 import sorry from "../images/sorry.jpeg";
 import { useEffect, useState } from "react";
 import { Typography, TextField, Grid } from "@mui/material";
+import { PulseLoader } from "react-spinners";
+import CartModal from "../components/cart/cartModal";
 
 const CategoryPage = ({ StarRating, generateStarRating }) => {
   const { products, isLoading } = useSelector((state) => state.products);
-
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [inputFiltered, setInputFiltered] = useState([]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
-
   const { id } = useParams();
+  const [cartModal, setCartModal] = useState(false);
+
+  console.log(cartModal);
 
   useEffect(() => {
-    const filteredProductss = products.filter(
-      (product) => product.categoryId === id
-    );
+    if (!isLoading) {
+      const filteredProductss = products.filter(
+        (product) => product.categoryId === id
+      );
+      console.log(filteredProductss);
 
-    setFilteredProducts(filteredProductss);
-    setInputFiltered(filteredProductss);
-  }, [id]);
+      setFilteredProducts(filteredProductss);
+
+      setInputFiltered(filteredProductss);
+    }
+  }, [isLoading]);
 
   const handlePriceFiler = () => {
     const filtered = inputFiltered.filter((product) => {
@@ -35,18 +42,37 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
     setFilteredProducts(filtered);
   };
 
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <PulseLoader
+          color={"orange"}
+          loading={isLoading}
+          size={30}
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
   return (
     <>
       <Header />
       <section className="product-category">
         <div className="aside">
           <div
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: "25px" }}
             onKeyDown={handlePriceFiler}
             className="minMax"
           >
             <Typography variant="h6">Filter By Price</Typography>
-            <Grid container spacing={2}>
+            <Grid sx={{ marginTop: "5px" }} container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   id="min-price"
@@ -57,11 +83,6 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
                   fullWidth
-                  sx={{
-                    "&:focus": {
-                      outline: "2px solid orange",
-                    },
-                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -85,6 +106,7 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
             filteredProducts={filteredProducts}
             StarRating={StarRating}
             generateStarRating={generateStarRating}
+            setCartModal={setCartModal}
           />
         ) : (
           <div className="no-products">
@@ -96,6 +118,7 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
           </div>
         )}
       </section>
+      {cartModal && <CartModal />}
     </>
   );
 };
