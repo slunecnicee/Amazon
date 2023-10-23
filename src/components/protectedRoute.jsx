@@ -21,7 +21,7 @@ const ProtectedRoute = () => {
         return false;
       }
     }
-  }, []);
+  }, [dispatch]);
 
   if (isLoggedIn) {
     return <Outlet />;

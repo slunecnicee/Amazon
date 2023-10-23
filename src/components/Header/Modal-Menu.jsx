@@ -21,9 +21,6 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
 
   const handleCategoryClick = (id) => {
     push(`/categorypage/${id}`);
-
-    document.body.style.height = "auto";
-    document.body.style.overflow = "auto";
   };
 
   const handleClose = () => {
@@ -31,9 +28,6 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
     setTimeout(() => {
       setModalOpen(false);
     }, 500);
-
-    document.body.style.height = "auto";
-    document.body.style.overflow = "auto";
   };
 
   return (
@@ -93,7 +87,7 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
         <section className="help-settings">
           <h3>Help & settings</h3>
           <ul>
-            <li>your account</li>
+            <li onClick={() => push("/updatePage")}>your account</li>
             <li> English 🇺🇸</li>
             <li>costumer service</li>
             {isSignedIn ? (
@@ -101,7 +95,15 @@ const ModalMenu = ({ setModalOpen, setAnimating, animating }) => {
                 Sign out
               </li>
             ) : (
-              <li onClick={() => push("/login")}>Sign in</li>
+              <li
+                onClick={() => {
+                  push("/login");
+                  document.body.style.height = "auto";
+                  document.body.style.overflow = "auto";
+                }}
+              >
+                Sign in
+              </li>
             )}
           </ul>
         </section>

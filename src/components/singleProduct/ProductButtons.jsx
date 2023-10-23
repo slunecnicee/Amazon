@@ -5,6 +5,7 @@ import { addToCart } from "../../servises/cart/addToCart";
 import { handleAddProduct } from "../../features/user";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../servises/getProductById";
+import { toast } from "react-toastify";
 
 const defaultState = {
   data: [],
@@ -20,7 +21,6 @@ const ProductButtons = ({ price }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { isSignedIn } = useSelector((state) => state.user);
-  const { person } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ const ProductButtons = ({ price }) => {
         });
       }
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const random = Math.random();
@@ -62,8 +62,9 @@ const ProductButtons = ({ price }) => {
     if (isSignedIn) {
       dispatch(handleAddProduct(selectedProduct.data));
       addToCart(selectedProduct.data);
-      console.log(selectedProduct.data);
+      toast.success("Product added to cart");
     } else {
+      toast.error("please login to continue");
       navigate("/");
     }
   };

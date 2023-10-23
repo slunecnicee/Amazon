@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCartItems } from "../servises/cart/getCartItems";
 import { removeCartItem } from "../servises/cart/RemoveFromCart";
+import { v4 as uuidv4 } from "uuid";
 
 export const getReduxCartItems = createAsyncThunk("cart/items", getCartItems);
 
@@ -14,6 +15,7 @@ const initialState = {
   isSignedIn: false,
   errorMessage: "",
   succsessMessage: "",
+  addresses: [],
   email: "",
   exp: 0,
   iat: 0,
@@ -79,6 +81,21 @@ const user = createSlice({
     handleRemoveOptimisticProduct(state, action) {
       delete state.cartItems.data[action.payload];
     },
+    handleSetAddress(state, action) {
+      const newAddress = {
+        id: uuidv4(),
+        ...action.payload,
+      };
+
+      const updatedAddresses = [...state.addresses, newAddress];
+
+      localStorage.setItem("addresses", JSON.stringify(updatedAddresses));
+
+      return {
+        ...state,
+        addresses: updatedAddresses,
+      };
+    },
   },
 
   extraReducers(builder) {
@@ -87,9 +104,11 @@ const user = createSlice({
       state.cartItems.isLoading = false;
       state.cartItems.isError = false;
       const newObj = {};
+
       action.payload.forEach((product) => {
         newObj[product.id] = product;
       });
+
       state.cartItems.data = newObj;
     });
     builder.addCase(removeRedCartItem.fulfilled, (state, { payload }) => {
@@ -108,5 +127,6 @@ export const {
   handleLogOut,
   handleRemoveOptimisticProduct,
   handleAddProduct,
+  handleSetAddress,
 } = user.actions;
 export default user.reducer;

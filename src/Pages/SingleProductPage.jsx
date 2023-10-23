@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import SingleProductBox from "../components/singleProduct/singleProductBox";
 import { PulseLoader } from "react-spinners";
+import noproduct from "../images/noProduct.jpeg";
+import Footer from "../components/Footer/Pagefooter";
 
 const SingleProductPage = ({ StarRating, generateStarRating }) => {
   const { id } = useParams();
@@ -42,22 +44,26 @@ const SingleProductPage = ({ StarRating, generateStarRating }) => {
     );
   }
 
-  if (product.data.length == 0) {
-    return <div>Product not found</div>;
-  }
-
   const { data } = product;
+  console.log(data);
 
   return (
     <>
       <Header />
-      <div className="singleProductPageCont">
-        <SingleProductBox
-          product={data}
-          generateStarRating={generateStarRating}
-          StarRating={StarRating}
-        />
-      </div>
+      {Object.values(data).length > 0 ? (
+        <div className="singleProductPageCont">
+          <SingleProductBox
+            product={data}
+            generateStarRating={generateStarRating}
+            StarRating={StarRating}
+          />
+        </div>
+      ) : (
+        <div>
+          <img style={{ width: "100%" }} src={noproduct} alt="noproduct" />
+        </div>
+      )}
+      <Footer />
     </>
   );
 };

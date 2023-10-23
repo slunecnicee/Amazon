@@ -3,15 +3,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { userSignIn } from "../servises/userSignIn";
-import { handleLogIn, setErrorMessage } from "../features/user";
-import { useSelector, useDispatch } from "react-redux";
+import { handleLogIn } from "../features/user";
+import { useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { errorMessage } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState({
     email: "sdfgn@fgg",
@@ -22,7 +22,7 @@ const LoginPage = () => {
 
   const handleContinue = () => {
     if (login.email === "") {
-      dispatch(setErrorMessage("Email is required"));
+      toast.error("email is required");
     } else {
       setPaswordFiled(true);
     }
@@ -45,344 +45,337 @@ const LoginPage = () => {
         localStorage.setItem("token", response.data.jwt);
         const decodedToken = jwtDecode(response.data.jwt);
         dispatch(handleLogIn(decodedToken));
+        toast.success("Logged in successfully");
         navigate("/");
       } else {
         console.log("No JWT token received");
+        toast.error("Something went wrong");
       }
     } catch (err) {
-      window.alert(err);
-
       if (err.response && err.response.status !== 200) {
-        dispatch(setErrorMessage("Wrong email or password"));
+        toast.error("Wrong email or password");
       }
     }
   };
 
   return (
-    <Box
-      sx={{
-        textAlign: "center",
-      }}
-    >
+    <>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          padding: 2,
-          gap: 2,
-          alignItems: "center",
-          justifyContent: "center",
-          "&::after": {
-            content: '""',
-            display: "block",
-            width: "100%",
-            height: "2px",
-            backgroundColor: "darkgray",
-            boxShadow:
-              "0 30px 30px black, 0 10px 30px black, 1px 5px 15px black",
-          },
+          textAlign: "center",
         }}
       >
-        <img
-          onClick={() => navigate("/")}
-          style={{
-            width: "200px",
-            height: "100px",
-            mixBlendMode: "multiply",
-            cursor: "pointer",
-          }}
-          src="https://thumbs.dreamstime.com/b/simple-vector-filled-flat-amazon-icon-logo-solid-black-pictogram-isolated-white-background-amazon-logo-159029074.jpg"
-          alt="logo"
-        />
-
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             padding: 2,
-            gap: 1,
-            border: "1px solid gray",
-            minWidth: "250px",
-            minHeight: "300px",
-            borderRadius: "10px",
-            maxWidth: "450px",
-            textAlign: "start",
+            gap: 2,
+            alignItems: "center",
+            justifyContent: "center",
+            "&::after": {
+              content: '""',
+              display: "block",
+              width: "100%",
+              height: "2px",
+              backgroundColor: "darkgray",
+              boxShadow:
+                "0 30px 30px black, 0 10px 30px black, 1px 5px 15px black",
+            },
           }}
         >
-          {paswordFiled === false ? (
-            <>
-              <Typography variant="h4" component="h2">
-                Sign In
-              </Typography>
+          <img
+            onClick={() => navigate("/")}
+            style={{
+              width: "200px",
+              height: "100px",
+              mixBlendMode: "multiply",
+              cursor: "pointer",
+            }}
+            src="https://thumbs.dreamstime.com/b/simple-vector-filled-flat-amazon-icon-logo-solid-black-pictogram-isolated-white-background-amazon-logo-159029074.jpg"
+            alt="logo"
+          />
 
-              <Typography
-                variant="h7"
-                component="p"
-                sx={{ color: "black", fontWeight: "bold" }}
-              >
-                Email
-              </Typography>
-              <TextField
-                name="email"
-                required
-                label=""
-                variant="outlined"
-                value={login.email}
-                onChange={handleChange}
-              />
-
-              {errorMessage && (
-                <Typography component="p" sx={{ color: "red" }}>
-                  {errorMessage}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              padding: 2,
+              gap: 1,
+              border: "1px solid gray",
+              minWidth: "250px",
+              minHeight: "300px",
+              borderRadius: "10px",
+              maxWidth: "450px",
+              textAlign: "start",
+            }}
+          >
+            {paswordFiled === false ? (
+              <>
+                <Typography variant="h4" component="h2">
+                  Sign In
                 </Typography>
-              )}
 
-              <Button
-                sx={{
-                  backgroundColor: "#f0c14b",
-                  color: "black",
-                  height: "30px",
-                  fontSize: "small",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#ffbd17",
-                  },
-                }}
-                onClick={handleContinue}
-              >
-                Continue
-              </Button>
-            </>
-          ) : (
-            <>
-              <Typography
-                variant="h7"
-                component="p"
-                sx={{ color: "black", fontWeight: "bold" }}
-              >
-                Password
-              </Typography>
-
-              <Typography
-                variant="subtitle"
-                component="subtitle"
-                sx={{ fontSize: "15px" }}
-              >
-                {login.email}{" "}
-                <span className="change" onClick={handleEmailChange}>
-                  change
-                </span>
-              </Typography>
-
-              <TextField
-                name="password"
-                required
-                type={showPassword ? "text" : "password"}
-                label="Password"
-                variant="outlined"
-                value={login.password}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      sx={{
-                        backgroundColor: "transparent",
-                        padding: "0",
-                        minWidth: "unset",
-                        marginRight: "-8px",
-                      }}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  ),
-                }}
-              />
-
-              {errorMessage && (
-                <Typography component="p" sx={{ color: "red" }}>
-                  {errorMessage}
+                <Typography
+                  variant="h7"
+                  component="p"
+                  sx={{ color: "black", fontWeight: "bold" }}
+                >
+                  Email
                 </Typography>
-              )}
+                <TextField
+                  name="email"
+                  required
+                  label=""
+                  variant="outlined"
+                  value={login.email}
+                  onChange={handleChange}
+                />
 
-              <Button
-                sx={{
-                  backgroundColor: "#f0c14b",
-                  color: "black",
-                  height: "30px",
-                  fontSize: "small",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#ffbd17",
-                  },
+                <Button
+                  sx={{
+                    backgroundColor: "#f0c14b",
+                    color: "black",
+                    height: "30px",
+                    fontSize: "small",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#ffbd17",
+                    },
+                  }}
+                  onClick={handleContinue}
+                >
+                  Continue
+                </Button>
+              </>
+            ) : (
+              <>
+                <Typography
+                  variant="h7"
+                  component="p"
+                  sx={{ color: "black", fontWeight: "bold" }}
+                >
+                  Password
+                </Typography>
+
+                <Typography
+                  variant="subtitle"
+                  component="subtitle"
+                  sx={{ fontSize: "15px" }}
+                >
+                  {login.email}{" "}
+                  <span className="change" onClick={handleEmailChange}>
+                    change
+                  </span>
+                </Typography>
+
+                <TextField
+                  name="password"
+                  required
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  variant="outlined"
+                  value={login.password}
+                  onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        sx={{
+                          backgroundColor: "transparent",
+                          padding: "0",
+                          minWidth: "unset",
+                          marginRight: "-8px",
+                        }}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    ),
+                  }}
+                />
+
+                <Button
+                  sx={{
+                    backgroundColor: "#f0c14b",
+                    color: "black",
+                    height: "30px",
+                    fontSize: "small",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#ffbd17",
+                    },
+                  }}
+                  onClick={onLogin}
+                >
+                  Sign In
+                </Button>
+              </>
+            )}
+
+            <Typography
+              sx={{
+                marginTop: "25px",
+                fontSize: "small",
+                "&::after": {
+                  content: '""',
+                  display: "block",
+                  width: "100%",
+                  height: "2px",
+                  backgroundColor: "darkgray",
+                  boxShadow:
+                    "0 30px 30px black, 0 10px 30px black, 1px 5px 15px black",
+                  margin: "6px 0",
+                },
+              }}
+              component="p"
+            >
+              {" "}
+              By creating an account, you agree to Amazon's{" "}
+              <NavLink
+                style={{
+                  color: "#007bff",
+                  textDecoration: "none",
+                  transition: "color 0.3s",
                 }}
-                onClick={onLogin}
+                to=""
               >
-                Sign In
-              </Button>
-            </>
-          )}
+                Conditions of Use
+              </NavLink>{" "}
+              and{" "}
+              <NavLink
+                style={{
+                  color: "#007bff",
+                  textDecoration: "none",
+                  transition: "color 0.3s",
+                }}
+                to=""
+              >
+                Privacy Notice
+              </NavLink>
+            </Typography>
+
+            <Typography
+              sx={{
+                marginTop: "15px",
+                fontSize: "small",
+                "&:hover": {
+                  textDecoration: "underline",
+                  color: "#007bff",
+                },
+              }}
+              component="p"
+            >
+              {" "}
+              need Help?
+            </Typography>
+          </Box>
 
           <Typography
             sx={{
-              marginTop: "25px",
               fontSize: "small",
+              color: "darkgray",
+              position: "relative",
               "&::after": {
                 content: '""',
                 display: "block",
                 width: "100%",
-                height: "2px",
-                backgroundColor: "darkgray",
-                boxShadow:
-                  "0 30px 30px black, 0 10px 30px black, 1px 5px 15px black",
-                margin: "6px 0",
+                height: "1px",
+                backgroundColor: "gray",
+                position: "absolute",
+                top: "50%",
+                left: "-102%",
+              },
+              "&::before": {
+                content: '""',
+                display: "block",
+                width: "100%",
+                height: "1px",
+                backgroundColor: "gray",
+                position: "absolute",
+                top: "50%",
+                right: "-102%",
               },
             }}
             component="p"
           >
-            {" "}
-            By creating an account, you agree to Amazon's{" "}
-            <NavLink
-              style={{
-                color: "#007bff",
-                textDecoration: "none",
-                transition: "color 0.3s",
-              }}
-              to="/terms&conditions"
-            >
-              Conditions of Use
-            </NavLink>{" "}
-            and{" "}
-            <NavLink
-              style={{
-                color: "#007bff",
-                textDecoration: "none",
-                transition: "color 0.3s",
-              }}
-              to="/privacynotice"
-            >
-              Privacy Notice
-            </NavLink>
-            .
+            New to Amazon?
           </Typography>
 
-          <Typography
+          <Button
+            variant="primary"
+            onClick={() => navigate("/register")}
             sx={{
-              marginTop: "15px",
-              fontSize: "small",
+              width: "fit-content",
+              padding: 2,
+              border: "1px solid lightgray",
+              borderRadius: "5px",
+              boxShadow: "0 0 5px lightgray",
+              textDecoration: "line",
             }}
-            component="p"
           >
-            {" "}
-            need Help?
-          </Typography>
+            Create your amazon account
+          </Button>
         </Box>
 
         <Typography
           sx={{
             fontSize: "small",
-            color: "darkgray",
-            position: "relative",
-            "&::after": {
-              content: '""',
-              display: "block",
-              width: "100%",
-              height: "1px",
-              backgroundColor: "gray",
-              position: "absolute",
-              top: "50%",
-              left: "-102%",
-            },
-            "&::before": {
-              content: '""',
-              display: "block",
-              width: "100%",
-              height: "1px",
-              backgroundColor: "gray",
-              position: "absolute",
-              top: "50%",
-              right: "-102%",
-            },
+            color: "black",
+            display: "flex",
+            gap: "15px",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
           }}
           component="p"
         >
-          New to Amazon?
+          <NavLink
+            style={{
+              color: "#007bff",
+              textDecoration: "none",
+              transition: "color 0.3s",
+            }}
+            to=""
+          >
+            contions of use
+          </NavLink>
+          <NavLink
+            style={{
+              color: "#007bff",
+              textDecoration: "none",
+              transition: "color 0.3s",
+            }}
+            to=""
+          >
+            Privacy notice{" "}
+          </NavLink>
+          <NavLink
+            style={{
+              color: "#007bff",
+              textDecoration: "none",
+              transition: "color 0.3s",
+            }}
+            to=""
+          >
+            {" "}
+            Help
+          </NavLink>
         </Typography>
 
-        <Button
-          variant="primary"
-          onClick={() => navigate("/register")}
-          sx={{
-            width: "calc(100% - 800px)",
-            padding: 2,
-            border: "1px solid lightgray",
-            borderRadius: "5px",
-            boxShadow: "0 0 5px lightgray",
-            textDecoration: "line",
-          }}
-        >
-          Create your amazon account
-        </Button>
-      </Box>
+        <br />
 
-      <Typography
-        sx={{
-          fontSize: "small",
-          color: "black",
-          display: "flex",
-          gap: "15px",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        component="p"
-      >
-        <NavLink
-          style={{
-            color: "#007bff",
-            textDecoration: "none",
-            transition: "color 0.3s",
+        <Typography
+          sx={{
+            fontSize: "small",
+            color: "gray",
           }}
-          to="/terms&conditions"
-        >
-          contions of use
-        </NavLink>
-        <NavLink
-          style={{
-            color: "#007bff",
-            textDecoration: "none",
-            transition: "color 0.3s",
-          }}
-          to="/privacynotice"
-        >
-          Privacy notice{" "}
-        </NavLink>
-        <NavLink
-          style={{
-            color: "#007bff",
-            textDecoration: "none",
-            transition: "color 0.3s",
-          }}
-          to="/help"
+          component="p"
         >
           {" "}
-          Help
-        </NavLink>
-      </Typography>
-
-      <br />
-
-      <Typography
-        sx={{
-          fontSize: "small",
-          color: "gray",
-        }}
-        component="p"
-      >
-        {" "}
-        © 1996-2022, Amazon.com, Maia Kiknavelizde, Slay your day{" "}
-      </Typography>
-    </Box>
+          © 1996-2022, Amazon.com, Maia Kiknavelizde, Slay your day{" "}
+        </Typography>
+      </Box>
+    </>
   );
 };
 

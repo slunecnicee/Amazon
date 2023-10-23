@@ -1,22 +1,26 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getReduxCartItems,
   handleRemoveOptimisticProduct,
   removeRedCartItem,
 } from "../features/user";
 import { PulseLoader } from "react-spinners";
 import Header from "../components/Header/Header";
+import emptyCart from "../images/empty-cart.webp";
+import { useNavigate } from "react-router-dom";
+import amazon from "../images/amazon.png";
+import Sliders from "../components/Home/homepageSliders";
+import { toast } from "react-toastify";
+import Footer from "../components/Footer/Pagefooter";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.user);
-
+  const { cartItems, unique_name } = useSelector((state) => state.user);
+  const { latest, isLoading: latestIsLoading } = useSelector(
+    (state) => state.latest
+  );
+  const push = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
-
-  useEffect(() => {
-    dispatch(getReduxCartItems());
-  }, []);
 
   function getRandomQuantity(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -63,11 +67,13 @@ const Cart = () => {
 
   const deselectAllItems = () => {
     setSelectedItems([]);
+    toast.success("all items are deselected");
   };
 
   const handleRemoveFromCart = (id) => {
     dispatch(handleRemoveOptimisticProduct(id));
     dispatch(removeRedCartItem(id));
+    toast.success("item removed from cart");
   };
 
   const removeAllItems = () => {
@@ -75,21 +81,25 @@ const Cart = () => {
       dispatch(handleRemoveOptimisticProduct(productId));
       dispatch(removeRedCartItem(productId));
     });
+    toast.success("Cart is cleared");
   };
 
-  if (cartItems.isLoading) {
+  if (cartItems.isLoading || latestIsLoading) {
     return (
       <div
         style={{
           height: "100vh",
           display: "flex",
+          flexDirection: "column",
+          gap: "50px",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
+        <img style={{ width: "20%" }} src={amazon} alt="amazon logo" />
         <PulseLoader
           color={"orange"}
-          loading={cartItems.isLoading}
+          loading={cartItems.isLoading || latestIsLoading}
           size={30}
           data-testid="loader"
         />
@@ -141,7 +151,7 @@ const Cart = () => {
               </div>
             ))}
 
-            {!selectedItems.length == 0 ? (
+            {selectedItems.length > 0 ? (
               <div className="subtotal">
                 Subtotal {`(${selectedProducts.length} items):`}{" "}
                 <span>$ {subtotal}</span>
@@ -157,7 +167,7 @@ const Cart = () => {
           </div>
 
           <div className="rightbar">
-            {!selectedItems.length == 0 ? (
+            {selectedItems.length > 0 ? (
               <h3 className="subtotal">
                 Subtotal {`(${selectedProducts.length} items):`}{" "}
                 <span>$ {subtotal}</span>
@@ -174,10 +184,53 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div className="noproducts">
-          <h2>No products in cart</h2>
+        <div
+          style={{
+            height: "fit-content",
+            padding: "20px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          className="noproducts"
+        >
+          <img src={emptyCart} alt="" />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              alignItems: "center",
+              padding: "20px",
+              width: "fit-content",
+              height: "fit-content",
+              backgroundColor: "white",
+              borderRadius: "10px",
+            }}
+          >
+            <p>Hello {unique_name}</p>
+            <h3>Your cart is empty</h3>
+            <button
+              onClick={() => push("/")}
+              style={{
+                padding: "13px",
+                fontWeight: "600",
+                backgroundColor: "orange",
+                borderRadius: "5px",
+                border: "none",
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
         </div>
       )}
+
+      <div>
+        <Sliders products={latest} title={"Recomended for You"} />
+      </div>
+      <Footer />
     </>
   );
 };

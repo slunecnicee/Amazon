@@ -6,7 +6,8 @@ import sorry from "../images/sorry.jpeg";
 import { useEffect, useState } from "react";
 import { Typography, TextField, Grid } from "@mui/material";
 import { PulseLoader } from "react-spinners";
-import CartModal from "../components/cart/cartModal";
+import amazon from "../images/amazon.png";
+import Footer from "../components/Footer/Pagefooter";
 
 const CategoryPage = ({ StarRating, generateStarRating }) => {
   const { products, isLoading } = useSelector((state) => state.products);
@@ -15,9 +16,6 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
   const { id } = useParams();
-  const [cartModal, setCartModal] = useState(false);
-
-  console.log(cartModal);
 
   useEffect(() => {
     if (!isLoading) {
@@ -30,7 +28,7 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
 
       setInputFiltered(filteredProductss);
     }
-  }, [isLoading]);
+  }, [isLoading, id, products]);
 
   const handlePriceFiler = () => {
     const filtered = inputFiltered.filter((product) => {
@@ -48,10 +46,13 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
         style={{
           height: "100vh",
           display: "flex",
+          flexDirection: "column",
+          gap: "50px",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
+        <img style={{ width: "20%" }} src={amazon} alt="amazon logo" />
         <PulseLoader
           color={"orange"}
           loading={isLoading}
@@ -106,7 +107,6 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
             filteredProducts={filteredProducts}
             StarRating={StarRating}
             generateStarRating={generateStarRating}
-            setCartModal={setCartModal}
           />
         ) : (
           <div className="no-products">
@@ -118,7 +118,7 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
           </div>
         )}
       </section>
-      {cartModal && <CartModal />}
+      <Footer />
     </>
   );
 };

@@ -1,10 +1,8 @@
 import "./App.scss";
+import "./new.scss";
 import HomePage from "./Pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RegisterUser from "./Pages/RegisterUser";
-import HelpPage from "./Pages/Help";
-import ConditionsPage from "./Pages/conditions";
-import PrivacyNoticePage from "./Pages/PrivacyNotice";
 import LoginPage from "./Pages/LoginPage";
 import ProtectedRoute from "./components/protectedRoute";
 import CategoryPage from "./Pages/CategoryPage";
@@ -16,9 +14,11 @@ import { getRedLatest } from "./features/latest";
 import { getRedOffers } from "./features/offers";
 import { getRedProducts } from "./features/products";
 import SingleProductPage from "./Pages/SingleProductPage";
-import { handleLogIn } from "./features/user";
+import { getReduxCartItems, handleLogIn } from "./features/user";
 import jwtDecode from "jwt-decode";
 import Cart from "./Pages/CartPage";
+import About from "./Pages/aboutPage";
+import UpdatePage from "./Pages/Update";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ function App() {
     dispatch(getRedOffers());
     dispatch(getRedLatest());
     dispatch(getRedDemanded());
+    dispatch(getReduxCartItems());
   }, []);
 
   const generateStarRating = () => {
@@ -88,10 +89,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterUser />} />
-          <Route path="/help" element={<HelpPage />} />
-          <Route path="/terms&conditions" element={<ConditionsPage />} />
-          <Route path="/privacynotice" element={<PrivacyNoticePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/aboutPage" element={<About />} />
+
           <Route
             path="/categorypage/:id"
             element={
@@ -113,6 +113,7 @@ function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
+            <Route path="/updatePage" element={<UpdatePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

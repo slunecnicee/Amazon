@@ -1,15 +1,11 @@
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const Header2 = ({ setModalOpen, setAnimating, modalOpen }) => {
-  const navigate = useNavigate();
   const handleOpen = () => {
     setModalOpen(true);
     setAnimating(true);
-    document.body.style.height = "100vh";
-    document.body.style.overflow = "hidden";
   };
 
   return (

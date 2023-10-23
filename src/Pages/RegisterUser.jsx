@@ -2,19 +2,15 @@ import React from "react";
 import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
 import { useState } from "react";
 import { baseAPI } from "../servises/baseApi";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  handleSignIn,
-  setErrorMessage,
-  setSuccsessMessage,
-} from "../features/user";
+import { useDispatch } from "react-redux";
+import { handleSignIn } from "../features/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { errorMessage, succsessMessage } = useSelector((state) => state.user);
 
   const [reg, setReg] = useState({
     username: "",
@@ -38,33 +34,30 @@ const RegisterUser = () => {
     e.preventDefault();
 
     if (reg.password !== secondPwd) {
-      dispatch(setErrorMessage("Passwords do not match"));
+      toast.error("Passwords do not match");
     } else if (reg.password.length < 6) {
-      dispatch(setErrorMessage("Password must be at least 6 characters"));
+      toast.error("Password must be at least 6 characters");
     } else if (!/[a-zA-Z]/.test(reg.password)) {
-      dispatch(setErrorMessage("Password must contain at least one letter"));
+      toast.error("Password must contain at least one letter");
     } else {
       try {
         const res = await baseAPI.post("/api/user/registerUser", reg);
         console.log(res);
-
         if (res.status === 200) {
           dispatch(handleSignIn());
+          toast.success("registration was successful");
           navigate("/login");
-          dispatch(setSuccsessMessage("Account created successfully"));
+          setReg({
+            username: "",
+            email: "",
+            password: "",
+          });
+          setSecondPwd("");
         }
       } catch (err) {
-        dispatch(setErrorMessage(err.response.data.message));
+        toast.error("Something went wrong try again later ");
       }
     }
-
-    setReg({
-      username: "",
-      email: "",
-      password: "",
-    });
-
-    setSecondPwd("");
   };
 
   return (
@@ -204,22 +197,10 @@ const RegisterUser = () => {
             }}
           />
 
-          {errorMessage ? (
-            <Typography sx={{ color: "red" }} component="p">
-              {" "}
-              {errorMessage}{" "}
-            </Typography>
-          ) : succsessMessage ? (
-            <Typography sx={{ color: "green" }} component="p">
-              {" "}
-              {succsessMessage}{" "}
-            </Typography>
-          ) : (
-            <Typography component="p">
-              {" "}
-              ! password must be at least 6 characters{" "}
-            </Typography>
-          )}
+          <Typography component="p">
+            {" "}
+            ! password must be at least 6 characters{" "}
+          </Typography>
 
           <Button
             sx={{
@@ -262,7 +243,7 @@ const RegisterUser = () => {
                 textDecoration: "none",
                 transition: "color 0.3s",
               }}
-              to="/terms&conditions"
+              to=""
             >
               Conditions of Use
             </NavLink>{" "}
@@ -281,9 +262,14 @@ const RegisterUser = () => {
           </Typography>
 
           <Typography
+            onClick={() => navigate("/login")}
             sx={{
               marginTop: "15px",
               fontSize: "small",
+              "&:hover": {
+                textDecoration: "underline",
+                color: "#007bff",
+              },
             }}
             component="p"
           >
@@ -321,7 +307,7 @@ const RegisterUser = () => {
             textDecoration: "none",
             transition: "color 0.3s",
           }}
-          to="/terms&conditions"
+          to=""
         >
           contions of use
         </NavLink>
@@ -331,7 +317,7 @@ const RegisterUser = () => {
             textDecoration: "none",
             transition: "color 0.3s",
           }}
-          to="/privacynotice"
+          to=""
         >
           Privacy notice{" "}
         </NavLink>
@@ -341,7 +327,7 @@ const RegisterUser = () => {
             textDecoration: "none",
             transition: "color 0.3s",
           }}
-          to="/help"
+          to=""
         >
           {" "}
           Help

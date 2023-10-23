@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const HomeProductBoxSm = ({ productsWithCategoryName }) => {
+const HomeProductBoxSm = ({ identicalCategoryProducts }) => {
   const push = useNavigate();
 
   const handleClick = (id) => {
@@ -13,7 +13,7 @@ const HomeProductBoxSm = ({ productsWithCategoryName }) => {
   return (
     <section className="product-slider">
       <div className="slider-content">
-        {productsWithCategoryName.map((product, index) => (
+        {identicalCategoryProducts.map((product, index) => (
           <div key={index} className="productbox">
             <h3 onClick={() => handleCategoryClick(product.categoryId)}>
               {product.categoryName}

@@ -4,28 +4,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleAddProduct } from "../../features/user";
 import { getProductById } from "../../servises/getProductById";
 import { addInCart } from "../../servises/cart/addInCart";
+import { toast } from "react-toastify";
 
-const ProductBox = ({
-  filteredProducts,
-  StarRating,
-  generateStarRating,
-  setCartModal,
-}) => {
+const ProductBox = ({ filteredProducts, StarRating, generateStarRating }) => {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector((state) => state.user);
 
   const handleAddToCart = async (id) => {
     if (!isSignedIn) {
-      window.alert("Please sign in first");
+      toast.error("please login to continue");
       return;
     } else {
       try {
         const product = await getProductById(id);
         await addInCart(id);
         dispatch(handleAddProduct(product));
-        setCartModal(true);
+        toast.success("Product added to cart");
       } catch (err) {
         console.log(err);
+        toast.error("Something went wrong try again later ");
       }
     }
   };

@@ -2,7 +2,7 @@ import boxes from "../../images/boxes.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const HomeProductBox = ({ productsWithCategoryName }) => {
+const HomeProductBox = ({ identicalCategoryProducts }) => {
   const push = useNavigate();
 
   const { isSignedIn } = useSelector((state) => state.user);
@@ -17,7 +17,7 @@ const HomeProductBox = ({ productsWithCategoryName }) => {
 
   return (
     <section className="productes">
-      {productsWithCategoryName?.map((product) => (
+      {identicalCategoryProducts?.map((product) => (
         <div key={product.id} className="product-box">
           <h3 onClick={() => handleSeeMoreClick(product.categoryId)}>
             {product.categoryName}
@@ -47,7 +47,7 @@ const HomeProductBox = ({ productsWithCategoryName }) => {
         {!isSignedIn ? (
           <>
             <h3>Sign in for besr experience</h3>
-            <button>Sign in securely</button>
+            <button onClick={() => push("/login")}>Sign in securely</button>
           </>
         ) : (
           <h3>Start Shopping Now </h3>
