@@ -6,6 +6,7 @@ import { handleAddProduct } from "../../features/user";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../servises/getProductById";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const defaultState = {
   data: [],
@@ -20,9 +21,27 @@ const ProductButtons = ({ price }) => {
   const [selectedProduct, setSelectedProduct] = useState(defaultState);
   const navigate = useNavigate();
   const { id } = useParams();
-  const { isSignedIn } = useSelector((state) => state.user);
+  const { isSignedIn, nameid } = useSelector((state) => state.user);
+  const [productToBuy, setProductToBuy] = useState([]);
 
   const dispatch = useDispatch();
+
+  const handleBuyNow = () => {
+    axios
+      .post("http://localhost:4242/api/create-checkout-session", {
+        cartItems: productToBuy,
+        userId: nameid,
+      })
+      .then((res) => {
+        if (res.data.url) {
+          console.log(res.data);
+          window.location.href = res.data.url;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getProductById(id).then((res) => {
@@ -33,6 +52,7 @@ const ProductButtons = ({ price }) => {
           isLoaded: true,
           isError: false,
         });
+        setProductToBuy([res]);
       } catch (err) {
         setSelectedProduct({
           data: [],
@@ -43,6 +63,8 @@ const ProductButtons = ({ price }) => {
       }
     });
   }, [id]);
+
+  console.log(selectedProduct.data);
 
   useEffect(() => {
     const random = Math.random();
@@ -95,7 +117,9 @@ const ProductButtons = ({ price }) => {
       <button className="yellow" onClick={handleAddToCart}>
         Add to Cart
       </button>
-      <button className="orange">Buy Now</button>
+      <button onClick={handleBuyNow} className="orange">
+        Buy Now
+      </button>
 
       <div className="payment">
         <div className="grayText">

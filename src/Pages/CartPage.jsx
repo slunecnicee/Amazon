@@ -12,51 +12,58 @@ import amazon from "../images/amazon.png";
 import Sliders from "../components/Home/homepageSliders";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer/Pagefooter";
+import axios from "axios";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems, unique_name } = useSelector((state) => state.user);
+  const { cartItems, unique_name, nameid } = useSelector((state) => state.user);
   const { latest, isLoading: latestIsLoading } = useSelector(
     (state) => state.latest
   );
   const push = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
 
+  const handleCheckout = () => {
+    if (selectedItems.length > 0) {
+      axios
+        .post("http://localhost:4242/api/create-checkout-session", {
+          cartItems: selectedItems,
+          userId: nameid,
+        })
+        .then((res) => {
+          if (res.data.url) {
+            console.log(res.data);
+            window.location.href = res.data.url;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post("http://localhost:4242/create-checkout-session", {
+          cartItems: cartItems.data,
+          userId: nameid,
+        })
+        .then((res) => {
+          if (res.data.url) {
+            console.log(res.data);
+            window.location.href = res.data.url;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   function getRandomQuantity(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const handleItemSelect = (productId) => {
-    setSelectedItems((prevSelectedItems) => {
-      let updatedItems;
-
-      if (prevSelectedItems.includes(productId)) {
-        updatedItems = prevSelectedItems.filter((id) => id !== productId);
-      } else {
-        updatedItems = [...prevSelectedItems, productId];
-      }
-
-      console.log("Selected Items:", updatedItems);
-
-      return updatedItems;
-    });
-  };
-
-  const calculateSubtotal = () => {
-    const selectedProducts = Object.values(cartItems.data).filter((product) =>
-      selectedItems.includes(product.id)
-    );
-
-    const subtotal = selectedProducts.reduce(
-      (total, product) => total + product.price,
-      0
-    );
-
-    return {
-      selectedProducts,
-      subtotal,
-    };
-  };
+  const subtotal = selectedItems.reduce((accumulator, product) => {
+    return accumulator + product.price;
+  }, 0);
 
   const totalprice = Object.values(cartItems.data).reduce(
     (accumulator, product) => {
@@ -107,8 +114,25 @@ const Cart = () => {
     );
   }
 
+  const handleSelect = (product) => {
+    const isSelected = selectedItems.some(
+      (selectedProduct) => selectedProduct.id === product.id
+    );
+
+    if (isSelected) {
+      setSelectedItems(
+        selectedItems.filter(
+          (selectedProduct) => selectedProduct.id !== product.id
+        )
+      );
+    } else {
+      setSelectedItems([...selectedItems, product]);
+    }
+  };
+
+  console.log(selectedItems);
+
   const { data } = cartItems;
-  const { selectedProducts, subtotal } = calculateSubtotal();
 
   return (
     <>
@@ -127,8 +151,10 @@ const Cart = () => {
               <div className="cart-item" key={product.id}>
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(product.id)}
-                  onChange={() => handleItemSelect(product.id)}
+                  onChange={() => handleSelect(product)}
+                  checked={selectedItems.some(
+                    (selectedProduct) => selectedProduct.id === product.id
+                  )}
                 />
                 <img src={product.images[0]} alt={product.name} />
                 <div className="p-info">
@@ -153,7 +179,7 @@ const Cart = () => {
 
             {selectedItems.length > 0 ? (
               <div className="subtotal">
-                Subtotal {`(${selectedProducts.length} items):`}{" "}
+                Subtotal {`(${selectedItems.length} items):`}{" "}
                 <span>$ {subtotal}</span>
               </div>
             ) : (
@@ -169,7 +195,7 @@ const Cart = () => {
           <div className="rightbar">
             {selectedItems.length > 0 ? (
               <h3 className="subtotal">
-                Subtotal {`(${selectedProducts.length} items):`}{" "}
+                Subtotal {`(${selectedItems.length} items):`}{" "}
                 <span>$ {subtotal}</span>
               </h3>
             ) : (
@@ -180,7 +206,9 @@ const Cart = () => {
                 </span>
               </h3>
             )}
-            <button>Proceed to Checkout</button>
+            <button onClick={() => handleCheckout()}>
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       ) : (
@@ -202,6 +230,7 @@ const Cart = () => {
               flexDirection: "column",
               gap: "10px",
               alignItems: "center",
+              justifyContent: "center",
               padding: "20px",
               width: "fit-content",
               height: "fit-content",
@@ -210,7 +239,7 @@ const Cart = () => {
             }}
           >
             <p>Hello {unique_name}</p>
-            <h3>Your cart is empty</h3>
+            <h3 style={{ whiteSpace: "nowrap" }}>Your cart is empty</h3>
             <button
               onClick={() => push("/")}
               style={{
@@ -219,6 +248,7 @@ const Cart = () => {
                 backgroundColor: "orange",
                 borderRadius: "5px",
                 border: "none",
+                whiteSpace: "nowrap",
               }}
             >
               Continue Shopping

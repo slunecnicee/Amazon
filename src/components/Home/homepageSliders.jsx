@@ -58,8 +58,8 @@ const Sliders = ({ title, products }) => {
     <div className="card">
       <h2 className="slider-title">{title}</h2>
       <Slider {...settings} className="image-slider">
-        {products.map((p) => (
-          <div key={p.id} className="slider-item">
+        {products.map((p, index) => (
+          <div key={index} className="slider-item">
             {p.image ? (
               <img
                 style={{ cursor: "pointer" }}

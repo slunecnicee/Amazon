@@ -3,10 +3,12 @@ import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
 import { useState } from "react";
 import { baseAPI } from "../servises/baseApi";
 import { useDispatch } from "react-redux";
-import { handleSignIn } from "../features/user";
+import { handleLogIn } from "../features/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { userSignIn } from "../servises/userSignIn";
+import jwtDecode from "jwt-decode";
 
 const RegisterUser = () => {
   const navigate = useNavigate();
@@ -19,7 +21,6 @@ const RegisterUser = () => {
   });
 
   const [secondPwd, setSecondPwd] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -44,15 +45,26 @@ const RegisterUser = () => {
         const res = await baseAPI.post("/api/user/registerUser", reg);
         console.log(res);
         if (res.status === 200) {
-          dispatch(handleSignIn());
-          toast.success("registration was successful");
-          navigate("/login");
-          setReg({
-            username: "",
-            email: "",
-            password: "",
+          const response = await userSignIn({
+            email: reg.email,
+            password: reg.password,
           });
-          setSecondPwd("");
+          if (response.data.jwt) {
+            localStorage.setItem("token", response.data.jwt);
+            const decodedToken = jwtDecode(response.data.jwt);
+            dispatch(handleLogIn(decodedToken));
+            toast.success("registeration in successfull");
+            navigate("/");
+            setReg({
+              username: "",
+              email: "",
+              password: "",
+            });
+            setSecondPwd("");
+          } else {
+            console.log("No JWT token received");
+            toast.error("Something went wrong");
+          }
         }
       } catch (err) {
         toast.error("Something went wrong try again later ");

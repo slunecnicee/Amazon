@@ -19,6 +19,7 @@ import jwtDecode from "jwt-decode";
 import Cart from "./Pages/CartPage";
 import About from "./Pages/aboutPage";
 import UpdatePage from "./Pages/Update";
+import PaymentSuccsess from "./Pages/paymentSuccsess";
 
 function App() {
   const dispatch = useDispatch();
@@ -114,6 +115,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/updatePage" element={<UpdatePage />} />
+            <Route path="/success-page" element={<PaymentSuccsess />} />
           </Route>
         </Routes>
       </BrowserRouter>

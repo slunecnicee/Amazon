@@ -542,12 +542,31 @@
   border: none;
   padding: 10px;
   cursor: pointer;
-  width: 20%;
+  min-width: 20%;
+  width: fit-content;
   transition: background-color 0.3s ease-in-out;
   &:hover {
     background-color: #c48104;
   }
 }
+
+.show-filters {
+  display: flex;
+  padding: 10px;
+  background-color: white;
+  justify-content: center;
+  color: steelblue;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    color: #a76003;
+  }
+
+  @media (min-width: 1099px) {
+    display: none;
+  }
+}
+
 .btn66 {
   font-size: 18px;
   background-color: #ffc800;
@@ -969,6 +988,19 @@
     &:hover {
       color: #6b6969;
       background: rgb(194, 193, 193);
+    }
+  }
+}
+
+.filterModal {
+  position: relative;
+  .close-filters {
+    position: absolute;
+    top: 0;
+    right: 2%;
+    cursor: pointer;
+    &:hover {
+      color: red;
     }
   }
 }

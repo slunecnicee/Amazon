@@ -17,8 +17,8 @@ const HomeProductBox = ({ identicalCategoryProducts }) => {
 
   return (
     <section className="productes">
-      {identicalCategoryProducts?.map((product) => (
-        <div key={product.id} className="product-box">
+      {identicalCategoryProducts?.map((product, index) => (
+        <div key={index} className="product-box">
           <h3 onClick={() => handleSeeMoreClick(product.categoryId)}>
             {product.categoryName}
           </h3>
@@ -26,9 +26,9 @@ const HomeProductBox = ({ identicalCategoryProducts }) => {
             onClick={() => handleProductClick(product.id)}
             className="imagebox"
           >
-            {product.images.slice(0, 4).map((i) => (
+            {product.images.slice(0, 4).map((i, index) => (
               <img
-                key={i}
+                key={index}
                 src={i}
                 alt={product.categoryName}
                 style={

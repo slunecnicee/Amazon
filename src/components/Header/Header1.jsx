@@ -17,12 +17,24 @@ const Header1 = () => {
   const items = useSelector((state) => state.user.cartItems.data);
   const amount = Object.values(items).length;
   const { categories } = useSelector((state) => state.categories);
-
+  const { products } = useSelector((state) => state.products);
   const [sectionOpen, setSectionOpen] = useState(false);
-
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const onLogOut = () => {
     dispatch(handleLogOut());
     toast.success("Logged out successfully");
+  };
+  const handleChange = (e) => {
+    const inputValue = e.target.value.trim().toLowerCase();
+
+    if (inputValue === "") {
+      setFilteredProducts([]);
+    } else {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(inputValue)
+      );
+      setFilteredProducts(filtered);
+    }
   };
 
   const handleCartClick = () => {
@@ -54,11 +66,23 @@ const Header1 = () => {
           <option value="option3">Option 3</option>
         </select>
 
-        <input type="text" placeholder="Search..." />
+        <input onChange={handleChange} type="text" placeholder="Search..." />
 
         <button className="header-btn-2">
           <FaSearch />
         </button>
+        {filteredProducts.length > 0 && (
+          <div className="searchResults">
+            {filteredProducts.map((product) => (
+              <li
+                key={product.id}
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                {product.name}
+              </li>
+            ))}
+          </div>
+        )}
       </div>
 
       <button className="btn2">
@@ -115,16 +139,6 @@ const Header1 = () => {
         onClick={handleCartClick}
         style={{ marginRight: "5px" }}
       >
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="35"
-          height="35"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className="bi bi-handbag-fill"
-        >
-          <path d="M8 1a2 2 0 0 0-2 2v2H5V3a3 3 0 1 1 6 0v2h-1V3a2 2 0 0 0-2-2zM5 5H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11v1.5a.5.5 0 0 1-1 0V5H6v1.5a.5.5 0 0 1-1 0V5z" />
-        </svg> */}
         <img src={cartImage} alt="cart" />
         <span>{amount}</span>
       </button>

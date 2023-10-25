@@ -25,9 +25,12 @@ const DetailsLg = ({
               style={{ fontSize: "20px" }}
               rating={generateStarRating()}
             />
-            <p>Brand: {product.brand}</p>
+            <p style={{ marginTop: "10px" }}>Brand: {product.brand}</p>
             <p> Model: {product.model}</p>
-            <p className="productPrice" style={{ fontSize: "22px" }}>
+            <p
+              className="productPrice"
+              style={{ fontSize: "22px", marginTop: "10px" }}
+            >
               <span className="dollarSign">$</span>
               <span className="mainPrice">{parseInt(product.price)}</span>
               <span className="decimalPoints">
@@ -38,6 +41,7 @@ const DetailsLg = ({
               see more
             </p>
             <button
+              style={{ marginTop: "10px" }}
               onClick={() => handleAddToCart(product.id)}
               className="btn65"
             >

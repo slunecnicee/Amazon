@@ -8,7 +8,9 @@ import { toast } from "react-toastify";
 
 const ProductBox = ({ filteredProducts, StarRating, generateStarRating }) => {
   const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state) => state.user);
+  const { isSignedIn, cartItems } = useSelector((state) => state.user);
+  const { data } = cartItems;
+  console.log(data);
 
   const handleAddToCart = async (id) => {
     if (!isSignedIn) {
@@ -17,9 +19,17 @@ const ProductBox = ({ filteredProducts, StarRating, generateStarRating }) => {
     } else {
       try {
         const product = await getProductById(id);
-        await addInCart(id);
-        dispatch(handleAddProduct(product));
-        toast.success("Product added to cart");
+        const isProductInCart = Object.values(data).some(
+          (item) => item.id === product.id
+        );
+
+        if (isProductInCart) {
+          toast.error("Product already in cart");
+        } else {
+          await addInCart(id);
+          dispatch(handleAddProduct(product));
+          toast.success("Product added to cart");
+        }
       } catch (err) {
         console.log(err);
         toast.error("Something went wrong try again later ");

@@ -15,8 +15,10 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState({
     email: "sdfgn@fgg",
-    password: "d12345",
+    password: "d123456",
   });
+
+  console.log(login);
 
   const [paswordFiled, setPaswordFiled] = useState(false);
 
@@ -40,7 +42,7 @@ const LoginPage = () => {
   const onLogin = async () => {
     try {
       const response = await userSignIn(login);
-
+      console.log(response.data.jwt);
       if (response.data.jwt) {
         localStorage.setItem("token", response.data.jwt);
         const decodedToken = jwtDecode(response.data.jwt);
@@ -52,9 +54,7 @@ const LoginPage = () => {
         toast.error("Something went wrong");
       }
     } catch (err) {
-      if (err.response && err.response.status !== 200) {
-        toast.error("Wrong email or password");
-      }
+      toast.error("Wrong email or password");
     }
   };
 
@@ -160,7 +160,7 @@ const LoginPage = () => {
 
                 <Typography
                   variant="subtitle"
-                  component="subtitle"
+                  component="Subtitle"
                   sx={{ fontSize: "15px" }}
                 >
                   {login.email}{" "}
