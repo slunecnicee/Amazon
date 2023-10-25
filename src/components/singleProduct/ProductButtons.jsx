@@ -28,10 +28,13 @@ const ProductButtons = ({ price }) => {
 
   const handleBuyNow = () => {
     axios
-      .post("http://localhost:4242/api/create-checkout-session", {
-        cartItems: productToBuy,
-        userId: nameid,
-      })
+      .post(
+        "https://stripe-server-for-amazon.onrender.com/api/create-checkout-session",
+        {
+          cartItems: productToBuy,
+          userId: nameid,
+        }
+      )
       .then((res) => {
         if (res.data.url) {
           console.log(res.data);

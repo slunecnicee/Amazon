@@ -20,6 +20,7 @@ import Cart from "./Pages/CartPage";
 import About from "./Pages/aboutPage";
 import UpdatePage from "./Pages/Update";
 import PaymentSuccsess from "./Pages/paymentSuccsess";
+import NotFound from "./Pages/NotFout";
 
 function App() {
   const dispatch = useDispatch();
@@ -92,6 +93,7 @@ function App() {
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/aboutPage" element={<About />} />
+          <Route path="/*" element={<NotFound />} />
 
           <Route
             path="/categorypage/:id"

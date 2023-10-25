@@ -26,10 +26,13 @@ const Cart = () => {
   const handleCheckout = () => {
     if (selectedItems.length > 0) {
       axios
-        .post("http://localhost:4242/api/create-checkout-session", {
-          cartItems: selectedItems,
-          userId: nameid,
-        })
+        .post(
+          "https://stripe-server-for-amazon.onrender.com/api/create-checkout-session",
+          {
+            cartItems: selectedItems,
+            userId: nameid,
+          }
+        )
         .then((res) => {
           if (res.data.url) {
             console.log(res.data);
@@ -41,10 +44,13 @@ const Cart = () => {
         });
     } else {
       axios
-        .post("http://localhost:4242/create-checkout-session", {
-          cartItems: cartItems.data,
-          userId: nameid,
-        })
+        .post(
+          "https://stripe-server-for-amazon.onrender.com/create-checkout-session",
+          {
+            cartItems: cartItems.data,
+            userId: nameid,
+          }
+        )
         .then((res) => {
           if (res.data.url) {
             console.log(res.data);
