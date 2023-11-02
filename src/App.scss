@@ -558,6 +558,10 @@ header {
   box-shadow: 0 0 5px black;
   transition: all 0.5s ease-in-out;
 
+  li {
+    white-space: nowrap;
+  }
+
   .departmentwrp {
     height: 93vh;
     overflow-y: scroll;
@@ -707,6 +711,7 @@ header {
       align-items: center;
       height: 100%;
       padding: 5px;
+      white-space: nowrap;
       &:hover {
         border: 1px solid white;
       }
