@@ -202,7 +202,7 @@ const UpdatePage = () => {
 
             <div className="adresses">
               <h3>Your adresses</h3>
-              {data.length > 0 ? (
+              {data ? (
                 <>
                   <ul>
                     {data.map((addres) => (
