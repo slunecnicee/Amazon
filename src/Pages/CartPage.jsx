@@ -5,13 +5,13 @@ import {
   removeRedCartItem,
 } from "../features/user";
 import { PulseLoader } from "react-spinners";
-import Header from "../components/Header/Header";
+
 import emptyCart from "../images/empty-cart.webp";
 import { useNavigate } from "react-router-dom";
 import amazon from "../images/amazon.png";
 import Sliders from "../components/Home/homepageSliders";
 import { toast } from "react-toastify";
-import Footer from "../components/Footer/Pagefooter";
+
 import axios from "axios";
 
 const Cart = () => {
@@ -142,7 +142,6 @@ const Cart = () => {
 
   return (
     <>
-      <Header />
       {Object.values(data).length ? (
         <div className="cart">
           <div className="cart-leftbar">
@@ -266,7 +265,6 @@ const Cart = () => {
       <div>
         <Sliders products={latest} title={"Recomended for You"} />
       </div>
-      <Footer />
     </>
   );
 };

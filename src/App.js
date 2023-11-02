@@ -21,6 +21,8 @@ import About from "./Pages/aboutPage";
 import UpdatePage from "./Pages/Update";
 import PaymentSuccsess from "./Pages/paymentSuccsess";
 import NotFound from "./Pages/NotFout";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Pagefooter";
 
 function App() {
   const dispatch = useDispatch();
@@ -88,6 +90,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterUser />} />
@@ -120,6 +123,7 @@ function App() {
             <Route path="/success-page" element={<PaymentSuccsess />} />
           </Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

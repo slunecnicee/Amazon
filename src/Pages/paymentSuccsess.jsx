@@ -1,22 +1,12 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import {
-  getReduxCartItems,
-  handleRemoveOptimisticProduct,
-} from "../features/user";
-import { removeRedCartItem } from "../features/user";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import amazon from "../images/amazon.png";
-import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { removeCartItem } from "../servises/cart/RemoveFromCart";
 
 const PaymentSuccsess = () => {
   const push = useNavigate();
-  const { cartItems, isLoading } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.user);
   const { data } = cartItems;
-  console.log(data);
-  const dispach = useDispatch();
 
   const removeAllItems = () => {
     for (let key in data) {

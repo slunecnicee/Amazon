@@ -1,13 +1,11 @@
 import { useSelector } from "react-redux";
 import Sliders from "../components/Home/homepageSliders";
 import Carusel from "../components/Home/carusel";
-import Header from "../components/Header/Header";
 import HomeProductBox from "../components/Home/HomeProductBox";
 import HomeProductBoxSm from "../components/Home/HomeProductBoxSm";
 import { PulseLoader } from "react-spinners";
 import amazon from "../images/amazon.png";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer/Pagefooter";
 
 const HomePage = () => {
   const { products, isLoading } = useSelector((state) => state.products);
@@ -91,7 +89,6 @@ const HomePage = () => {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      <Header />
       <Carusel />
       <HomeProductBox identicalCategoryProducts={homePageProducts} />
 
@@ -114,7 +111,6 @@ const HomePage = () => {
         <Sliders products={offers} title={"Best Offers"} />
         <Sliders products={demanded} title={"Popular Products"} />
       </div>
-      <Footer />
     </div>
   );
 };

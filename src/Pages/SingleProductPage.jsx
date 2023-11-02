@@ -1,11 +1,9 @@
 import { useParams } from "react-router-dom";
 import { getProductById } from "../servises/getProductById";
-import { useEffect, useState } from "react";
-import Header from "../components/Header/Header";
+import { useState, useEffect } from "react";
 import SingleProductBox from "../components/singleProduct/singleProductBox";
 import { PulseLoader } from "react-spinners";
 import noproduct from "../images/noProduct.jpeg";
-import Footer from "../components/Footer/Pagefooter";
 
 const SingleProductPage = ({ StarRating, generateStarRating }) => {
   const { id } = useParams();
@@ -49,7 +47,6 @@ const SingleProductPage = ({ StarRating, generateStarRating }) => {
 
   return (
     <>
-      <Header />
       {Object.values(data).length > 0 ? (
         <div className="singleProductPageCont">
           <SingleProductBox
@@ -63,7 +60,6 @@ const SingleProductPage = ({ StarRating, generateStarRating }) => {
           <img style={{ width: "100%" }} src={noproduct} alt="noproduct" />
         </div>
       )}
-      <Footer />
     </>
   );
 };

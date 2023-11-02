@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { handleLogIn, handleSetAddress } from "../features/user";
 import CloseIcon from "@mui/icons-material/Close";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Pagefooter";
 import Sliders from "../components/Home/homepageSliders";
 import AccountModal from "../components/Account/AccountModal";
 import AdressModal from "../components/Account/AdressModal";
@@ -142,7 +140,6 @@ const UpdatePage = () => {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      <Header />
       {modalOpen && (
         <AccountModal
           setModalOpen={setModalOpen}
@@ -209,7 +206,7 @@ const UpdatePage = () => {
                 <>
                   <ul>
                     {data.map((addres) => (
-                      <li>
+                      <li key={addres.id}>
                         <p>Full Name: {addres.name}</p>
                         <p>Coundtry: {addres.country}</p>
                         <p>City: {addres.city}</p>
@@ -242,8 +239,6 @@ const UpdatePage = () => {
       {!isLoading && (
         <Sliders products={demanded} title={"Frequently Purchaised Products"} />
       )}
-
-      <Footer />
     </div>
   );
 };

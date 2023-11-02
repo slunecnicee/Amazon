@@ -1,6 +1,4 @@
 import { Grid, Typography, List, ListItem, Button, Paper } from "@mui/material";
-import Footer from "../components/Footer/Pagefooter";
-import Header from "../components/Header/Header";
 
 const dependencies = [
   "Stripe",
@@ -22,7 +20,6 @@ const About = () => {
   const secondHalfDependencies = dependencies.slice(halfwayIndex);
   return (
     <>
-      <Header />
       <Grid
         container
         justifyContent="center"
@@ -126,7 +123,6 @@ const About = () => {
           </Paper>
         </Grid>
       </Grid>
-      <Footer />
     </>
   );
 };

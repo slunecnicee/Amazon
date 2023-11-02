@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
-import Header from "../components/Header/Header";
+
 import ProductBox from "../components/categoryPage/ProductBox";
 import { useParams } from "react-router-dom";
 import sorry from "../images/sorry.jpeg";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import amazon from "../images/amazon.png";
-import Footer from "../components/Footer/Pagefooter";
+
 import Filters from "../components/categoryPage/Fiters";
 import CloseIcon from "@mui/icons-material/Close";
 import { Pagination } from "@mui/material";
@@ -68,7 +68,6 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
   }
   return (
     <>
-      <Header />
       {!showFilters && (
         <p className="show-filters" onClick={() => setShowFilters(true)}>
           show filters
@@ -124,8 +123,6 @@ const CategoryPage = ({ StarRating, generateStarRating }) => {
           color="primary"
         />
       )}
-
-      <Footer />
     </>
   );
 };
