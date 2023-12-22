@@ -12,11 +12,11 @@ const ProductInfo = ({ product, generateStarRating, StarRating }) => {
     <div className="productInfo">
       <div className="title-rating">
         <h3>{product.name}</h3>
-        <p style={{ display: "flex", gap: "15px" }}>
+        <div style={{ display: "flex", gap: "15px" }}>
           {" "}
           <StarRating rating={generateStarRating()} />{" "}
           <span className="random">{randomNum} Rating</span>
-        </p>
+        </div>
       </div>
 
       <div className="price-model-brand">
