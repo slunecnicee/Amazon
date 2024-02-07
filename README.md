@@ -1,70 +1,76 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Amazon Clone
+An Amazon clone built with React, featuring Stripe integration for payment processing. Users can register, login, logout, browse products, add items to cart, and complete purchases. The app closely resembles Amazon's UI/UX.
 
-## Available Scripts
+## Live Demo
+Live Demo (https://vercel.com/mayas-projects/amazon-ecommerce)
 
-In the project directory, you can run:
+## Installation
+To run the app locally, follow these steps:
 
-### `npm start`
+Clone the repository:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+git clone https://github.com/slunecnicee/Amazon
+Navigate to the client directory:
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+cd client
+Install dependencies:
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm start
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Technologies Used
+React
+React Router
+Redux Toolkit
+Axios
+Stripe
+Emotion
+Material-UI
+React Icons
+React Slick
+React Spinners
+React Toastify
+Styled Components
+UUID
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+##  Folder Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![carbon (1)](https://github.com/slunecnicee/Amazon/assets/129013318/14acc082-c4a4-42e6-a993-4155fd3fd5ac)
 
-### Code Splitting
+    
+Usage
+Register: Create an account to start shopping.
+Login: Sign in to access your account.
+Browse Products: Explore a wide range of products.
+Add to Cart: Add items to your cart for later purchase.
+Checkout: Complete your purchase securely using Stripe integration.
+Logout: Safely log out of your account.
+Contributing
+Contributions are welcome! Please feel free to fork the repository and submit pull requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+License
+This project is licensed under the MIT License.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Credits
+React: https://reactjs.org/
+Redux Toolkit: https://redux-toolkit.js.org/
+Axios: https://axios-http.com/
+Stripe: https://stripe.com/
+Emotion: https://emotion.sh/
+Material-UI: https://mui.com/
+React Slick: https://react-slick.neostack.com/
+React Toastify: https://fkhadra.github.io/react-toastify/
+Styled Components: https://styled-components.com/
+UUID: https://www.npmjs.com/package/uuid
