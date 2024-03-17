@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://digitalamazon.azurewebsites.net/";
+const baseURL = "http://amazon-digital-institute.somee.com/";
 
 export const baseAPI = axios.create({
   baseURL,
