@@ -2,6 +2,8 @@
 # Amazon Clone
 An Amazon clone built with React, featuring Stripe integration for payment processing. Users can register, login, logout, browse products, add items to cart, and complete purchases. The app closely resembles Amazon's UI/UX.
 
+developer: Maia Kiknavelidze
+
 ## Live Demo
 Live Demo (https://vercel.com/mayas-projects/amazon-ecommerce)
 
